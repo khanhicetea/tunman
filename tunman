@@ -21,7 +21,7 @@ fi
 
 if [ "$COMMAND" = "k" ];
 then
-    pkill -f "ssh $NAME" && echo "Kill $NAME successful !" || echo "Kill $NAME failed !"
+    pkill -f "ssh $NAME -L" && echo "Kill $NAME successful !" || echo "Kill $NAME failed !"
     exit 0
 fi
 
