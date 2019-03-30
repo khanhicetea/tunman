@@ -8,7 +8,7 @@
 
 ```bash
 $ wget -O tunman https://raw.githubusercontent.com/khanhicetea/tunman/master/tunman
-$ sudo mv tunman /usr/local/bin/tunman
+$ sudo mv tunman /usr/local/bin/tunman && sudo chmod +x /usr/local/bin/tunman
 ```
 
 ## USAGE
