@@ -1,0 +1,52 @@
+#!/bin/bash
+
+### SSH TUNNEL MANAGER ###
+### Author : KhanhIceTea ###
+### LICENSE : MIT ###
+
+DB_FILE="$HOME/.tunman"
+
+[[ -f "$_db" ]] || (touch $DB_FILE && chmod 600 $DB_FILE)
+
+COMMAND="$1"
+NAME="$2"
+
+if [ "$COMMAND" = "a" ]; then
+    LOCAL_PORT="$3"
+    REMOTE_PORT="$4"
+    echo "$NAME|$LOCAL_PORT|$REMOTE_PORT" >> $DB_FILE
+    echo "Added $NAME successful !"
+    exit 0
+fi
+
+if [ "$COMMAND" = "k" ];
+then
+    pkill -f "ssh $NAME" && echo "Kill $NAME successful !" || echo "Kill $NAME failed !"
+    exit 0
+fi
+
+LINE=0
+while IFS='|' read -r name local remote
+do
+    LINE=$((LINE + 1))
+
+    if [ "$name" = "$NAME" ]; then
+        if [ "$COMMAND" = "c" ]; then
+            if lsof -Pi :$local -sTCP:LISTEN -t >/dev/null ; then
+                echo "Port $local is already in use !"
+            else
+                ssh $name -L 127.0.0.1:$local:127.0.0.1:$remote -fN && \
+                echo "Connected $NAME on port $local successful !" || \
+                echo "Connected $NAME on port $local failed !"
+            fi
+            exit 0
+        fi
+
+        if [ "$COMMAND" = "r" ]; then
+            sed "${LINE}d" $DB_FILE > "${DB_FILE}.tmp"
+            rm $DB_FILE && mv "${DB_FILE}.tmp" $DB_FILE
+            echo "Removed $NAME successful !"
+            exit 0
+        fi
+    fi
+done < $DB_FILE
