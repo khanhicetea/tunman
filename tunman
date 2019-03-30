@@ -11,6 +11,11 @@ DB_FILE="$HOME/.tunman"
 COMMAND="$1"
 NAME="$2"
 
+if [ "$COMMAND" = "l" ]; then
+    cat $DB_FILE
+    exit 0
+fi
+
 if [ "$COMMAND" = "a" ]; then
     LOCAL_PORT="$3"
     REMOTE_PORT="$4"
