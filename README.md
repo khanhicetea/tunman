@@ -36,7 +36,7 @@ $ tunman c [alias]
 ### Disconnect an alias connection
 
 ```bash
-$ tunman d [alias]
+$ tunman k [alias]
 ```
 
 ## LICENSE
